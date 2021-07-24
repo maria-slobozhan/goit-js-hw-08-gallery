@@ -70,8 +70,6 @@ const refs = {
   lightboxImg: document.querySelector(".lightbox__image"),
 };
 
-console.log(refs.gallery);
-
 const createGallery = (elements) => {
   return elements.map((el) => {
     return `<li class="gallery__item">
@@ -91,10 +89,8 @@ const createGallery = (elements) => {
 };
 
 const imageEl = createGallery(galleryItems);
-console.log(imageEl);
 refs.gallery.insertAdjacentHTML("afterbegin", imageEl.join(""));
 
-refs.gallery.addEventListener("click", handleOpenModal);
 
 function handleOpenModal(event) {
   event.preventDefault();
@@ -105,6 +101,11 @@ function handleOpenModal(event) {
   refs.lightboxImg.src = event.target.dataset.source;
 }
 
+refs.gallery.addEventListener("click", handleOpenModal);
+
+
+
+
 function handleCloseModal(event) {
   if (event.target.nodeName === "IMG") {
     return;
@@ -114,3 +115,14 @@ function handleCloseModal(event) {
 }
 
 refs.lightbox.addEventListener("click", handleCloseModal);
+
+function closeModalWithEsc(event) {
+  if (event.key !== "Escape") {
+    return;
+  }
+    refs.lightbox.classList.remove("is-open");
+    refs.lightboxImg.src = "";
+}
+
+window.addEventListener("keyup", closeModalWithEsc);
+
